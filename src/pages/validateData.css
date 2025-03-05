@@ -1,0 +1,16 @@
+.error-toggle {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: bold;
+    background: none;
+    border: none;
+    color: #b91c1c;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.error-toggle:hover {
+    color: #ef4444;
+}
