@@ -14,7 +14,7 @@ const Home = () => {
     if (file) {
       Papa.parse(file, {
         complete: (result) => {
-          setCsvData(result.data); // ✅ Store data in context
+          setCsvData(result.data);
         },
         header: true,
       });
