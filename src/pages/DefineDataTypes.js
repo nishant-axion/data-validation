@@ -1,27 +1,17 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import DataContext from "../context/DataContext";
-import './DefineDataTypes.css';  // Import the CSS file
+import './DefineDataTypes.css';  
 
 const DefineDataTypes = () => {
     const navigate = useNavigate();
-    const { csvData, dataTypes, setDataTypes } = useContext(DataContext);
-    const [previewData, setPreviewData] = useState([]); // ✅ Store CSV preview
+    const { csvData, dataTypes, setDataTypes, previewData } = useContext(DataContext);
 
-    // ✅ Memoize columns to prevent unnecessary recalculations
     const columns = useMemo(() => (csvData ? Object.keys(csvData[0]) : []), [csvData]);
 
-    // ✅ Initialize dataTypes only once and set preview
     useEffect(() => {
         if (csvData && Object.keys(dataTypes).length === 0) {
             setDataTypes(columns.reduce((acc, col) => ({ ...acc, [col]: "string" }), {}));
-        }
-
-        // ✅ Extract preview: First row of data
-        if (csvData && csvData.length > 0) {
-            const firstRow = csvData[0];
-            const preview = columns.map((col) => [col, firstRow[col]]);
-            setPreviewData(preview);
         }
     }, [csvData, setDataTypes, columns, dataTypes]);
 
@@ -49,7 +39,7 @@ const DefineDataTypes = () => {
                         <thead>
                             <tr>
                                 <th>Column Name</th>
-                                <th>Example</th>
+                                <th>First Value</th>
                                 <th>Data Type</th>
                             </tr>
                         </thead>

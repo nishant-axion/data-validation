@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Papa from "papaparse";
 import DataContext from "../context/DataContext";
@@ -6,9 +6,8 @@ import "./Home.css";
 
 const Home = () => {
   const navigate = useNavigate();
-  const { csvData, setCsvData, uploadedFile, setUploadedFile } = useContext(DataContext);
+  const { csvData, setCsvData, uploadedFile, setUploadedFile, previewData, setPreviewData } = useContext(DataContext);
   const fileInputRef = useRef(null); // ✅ Reference for file input
-  const [previewData, setPreviewData] = useState([]); // ✅ Store CSV preview
 
   useEffect(() => {
     // ✅ Restore selected file if it exists
@@ -34,7 +33,7 @@ const Home = () => {
             const headers = Object.keys(result.data[0]);
             const firstRow = result.data[0];
             const preview = headers.map((col) => [col, firstRow[col]]);
-            setPreviewData(preview);
+            setPreviewData(preview); // ✅ Store in context so it persists
           }
         },
         header: true,
@@ -63,7 +62,7 @@ const Home = () => {
             <thead>
               <tr>
                 <th>Column Name</th>
-                <th>Example</th>
+                <th>First Value</th>
               </tr>
             </thead>
             <tbody>
