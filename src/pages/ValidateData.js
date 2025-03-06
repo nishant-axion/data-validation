@@ -65,10 +65,15 @@ const ValidateData = () => {
                 }
             }
 
-            // Validate List2 (JSON Array Format)
+            // ✅ Validate List2 (JSON Array Format)
             if (type === "list2") {
                 try {
-                    const parsedArray = JSON.parse(value);
+                    let correctedValue = value
+                        .replace(/'/g, '"') // Convert single quotes to double quotes
+                        .trim();
+
+                    const parsedArray = JSON.parse(correctedValue);
+
                     if (!Array.isArray(parsedArray) || parsedArray.some((item) => typeof item !== "string")) {
                         throw new Error();
                     }
