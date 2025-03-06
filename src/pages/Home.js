@@ -63,7 +63,7 @@ const Home = () => {
             <thead>
               <tr>
                 <th>Column Name</th>
-                <th>First Value</th>
+                <th>Example</th>
               </tr>
             </thead>
             <tbody>

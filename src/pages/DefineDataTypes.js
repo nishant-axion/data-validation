@@ -49,7 +49,7 @@ const DefineDataTypes = () => {
                         <thead>
                             <tr>
                                 <th>Column Name</th>
-                                <th>First Value</th>
+                                <th>Example</th>
                                 <th>Data Type</th>
                             </tr>
                         </thead>
