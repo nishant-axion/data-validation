@@ -15,9 +15,12 @@ const DefineDataTypes = () => {
         }
     }, [csvData, setDataTypes, columns, dataTypes]);
 
+    useEffect(() => {
     if (!csvData) {
-        return <p className="no-data-message">No data found. Please upload a CSV file.</p>;
+        navigate("/");
     }
+}, [csvData, navigate]);
+
 
     const handleChange = (e, column) => {
         setDataTypes({ ...dataTypes, [column]: e.target.value });

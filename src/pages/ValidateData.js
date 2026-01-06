@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import JSON5 from "json5";
+import { useNavigate,Navigate } from "react-router-dom";
 import DataContext from "../context/DataContext";
 import "./validateData.css"; // ✅ Ensure CSS file is correctly imported
 
@@ -8,8 +9,8 @@ const ValidateData = () => {
     const { csvData, dataTypes } = useContext(DataContext);
     const [expandedColumns, setExpandedColumns] = useState({}); // Track which columns are expanded
 
-    if (!csvData || !dataTypes) {
-        return <p className="text-red-500">Invalid data. Please start over.</p>;
+    if (!Array.isArray(csvData) || !dataTypes) {
+        return <Navigate to="/" replace />;
     }
 
     const errors = {};
@@ -67,21 +68,21 @@ const ValidateData = () => {
 
             // ✅ Validate List2 (JSON Array Format)
             if (type === "list2") {
+                if (value != null && value.trim() !== "") {
                 try {
-                    let correctedValue = value
-                        .replace(/'/g, '"') // Convert single quotes to double quotes
-                        .trim();
+                    const parsedArray = JSON5.parse(value);
 
-                    const parsedArray = JSON.parse(correctedValue);
-
-                    if (!Array.isArray(parsedArray) || parsedArray.some((item) => typeof item !== "string")) {
+                    if (!Array.isArray(parsedArray) || parsedArray.some(item => typeof item !== "string")) {
                         throw new Error();
                     }
-                } catch (error) {
+                } catch {
                     errors[col] = errors[col] || [];
-                    errors[col].push(`Row ${rowIndex + 1}: "${value}" is not a valid JSON array format (["a", "b", "c"]).`);
+                    errors[col].push(
+                        `Row ${rowIndex + 1}: "${value}" is not a valid array of strings.`
+                    );
                 }
             }
+        }
         });
     });
 
